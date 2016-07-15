@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-import random
 
 SERVO_PIN = 7
 DISTANCE_IN_PIN = 11
@@ -36,12 +35,12 @@ try:
 		while angle<=180:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
-			angle += random.randint(0,15)
+			angle += 15
 			time.sleep(0.1)
 		while angle>=0:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
-			angle -= random.randint(0,15)
+			angle -= 15
 			time.sleep(0.1)	
 except KeyboardInterrupt:
 	p.stop()
