@@ -1,22 +1,24 @@
 import RPi.GPIO as GPIO
 import time
 
-pin = 7
-GPIO.setwarnings(False)
+SERVO = 7
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(pin, GPIO.OUT)
+GPIO.setup(SERVO, GPIO.OUT)
+p = GPIO.PWM(SERVO, 50)
 
 def turn(angle):
-	timeout = .001 + angle/float(180000)
-	print "timeout: " + str(timeout)
-	GPIO.output(pin, True)
-	time.sleep(timeout)
-	GPIO.output(pin, False)
+	dutyCycle = 2.5 + angle/10.0
+	# print "timeout: " + str(dutyCycle)
+	p.ChangeDutyCycle(dutyCycle)
 
-while True:
-	angle = 0
-	while angle<=180:
-		turn(angle)
-#		print angle
-		time.sleep(1)
-		angle += 15
+try:
+	while True:
+		angle = 0
+		while angle<=180:
+			turn(angle)
+			print angle
+			angle += 15
+			time.sleep(1)
+except KeyboardInterrupt:
+	p.stop()
+	GPIO.cleanup()
