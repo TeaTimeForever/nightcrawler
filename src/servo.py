@@ -12,3 +12,10 @@ def turn(angle):
 	GPIO.output(pin, True)
 	time.sleep(timeout)
 	GPIO.output(pin, False)
+
+while True:
+	angle = 0
+	while angle<=180:
+		turn(angle)
+		time.sleep(1)
+		angle += 15
