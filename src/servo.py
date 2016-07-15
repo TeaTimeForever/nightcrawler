@@ -37,6 +37,11 @@ try:
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
 			angle += random.randint(0,5)
 			time.sleep(0.1)
+		while angle>=0:
+			turn(angle)
+			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
+			angle -= random.randint(0,5)
+			time.sleep(0.1)	
 except KeyboardInterrupt:
 	p.stop()
 	GPIO.cleanup()
