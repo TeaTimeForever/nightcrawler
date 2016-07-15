@@ -36,12 +36,12 @@ try:
 		while angle<=180:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
-			angle += random.randint(0,5)
+			angle += random.randint(0,15)
 			time.sleep(0.1)
 		while angle>=0:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
-			angle -= random.randint(0,5)
+			angle -= random.randint(0,15)
 			time.sleep(0.1)	
 except KeyboardInterrupt:
 	p.stop()
