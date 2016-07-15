@@ -8,7 +8,7 @@ p = GPIO.PWM(SERVO, 50)
 p.start(2.5)
 
 def turn(angle):
-	dutyCycle = 2.5 + angle/10.0
+	dutyCycle = 2.5 + angle/18.0
 	# print "timeout: " + str(dutyCycle)
 	p.ChangeDutyCycle(dutyCycle)
 
