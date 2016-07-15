@@ -10,7 +10,7 @@ while True:
 	GPIO.output(3, True)
 	time.sleep(1/200000)
 	GPIO.output(3, False)
-	
+
 	while not GPIO.input(5):
 		pass
 	start = time.time()
@@ -19,6 +19,6 @@ while True:
 		pass
 	delta = time.time() - start
 	distance = delta * 17150
-	
+
 	print(str(distance) + " cm")
 	time.sleep(1)
