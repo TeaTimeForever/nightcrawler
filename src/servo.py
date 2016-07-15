@@ -5,6 +5,7 @@ SERVO = 7
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(SERVO, GPIO.OUT)
 p = GPIO.PWM(SERVO, 50)
+p.start(2.5)
 
 def turn(angle):
 	dutyCycle = 2.5 + angle/10.0
