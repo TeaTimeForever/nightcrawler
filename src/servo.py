@@ -14,7 +14,6 @@ p.start(2.5)
 
 def turn(angle):
 	dutyCycle = 2.5 + angle/18.0
-	# print "timeout: " + str(dutyCycle)
 	p.ChangeDutyCycle(dutyCycle)
 
 def distance():
@@ -35,9 +34,8 @@ try:
 		angle = 0
 		while angle<=180:
 			turn(angle)
-			angle += 15
-			distance = distance()
-			print("angle = "+str(angle)+"; distance="+str(distance) + " cm")
+			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
+			angle += random.randint(0,5)
 			time.sleep(0.1)
 except KeyboardInterrupt:
 	p.stop()
