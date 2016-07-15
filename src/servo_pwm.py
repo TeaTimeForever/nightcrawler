@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 SERVO = 7
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(SERVO, GPIO.OUT)
 p = GPIO.PWM(SERVO, 50)
 p.start(2.5)
