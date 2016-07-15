@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import random
 
 SERVO_PIN = 7
 DISTANCE_IN_PIN = 11
