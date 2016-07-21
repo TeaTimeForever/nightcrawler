@@ -2,13 +2,13 @@
  * Created by eq on 22/07/16.
  */
 var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext('2d');
+  ctx = canvas.getContext('2d');
 
 const CANVAS_WIDTH = 600,
-      CANVAS_LENGTH = 600,
-      MIN_OBSTACLE_SIZE = 10,
-      MAX_OBSTACLE_SIZE = 30,
-      OBSTACLES_COUNT = 10;
+  CANVAS_LENGTH = 600,
+  MIN_OBSTACLE_SIZE = 10,
+  MAX_OBSTACLE_SIZE = 30,
+  OBSTACLES_COUNT = 10;
 
 canvas.width  = CANVAS_WIDTH;
 canvas.height = CANVAS_LENGTH;
