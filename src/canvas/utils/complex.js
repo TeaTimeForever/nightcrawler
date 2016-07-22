@@ -77,3 +77,10 @@ export const rotor = (angle) => {
     y: Math.sin(angle)
   }
 };
+
+/**
+ * get angle of complex numb
+ */
+export const arg = (p) {
+  return Math.atan2(p.y, p.x);
+}
