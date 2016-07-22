@@ -1,4 +1,4 @@
-import { rotor } from '../utils/complex';
+import {rotor, mul, plus } from "../utils/complex";
 
 const space = {
   absoluteRotor: rotor(0),
@@ -17,4 +17,12 @@ export class Body {
     this.position = position || {x: 0, y: 0};
     this.base = base || space;
   };
+
+  get absoluteRotor() {
+    return mul(this.base.absoluteRotor, this.rotor);
+  }
+
+  get absolutePosition() {
+    return plus(this.base.absolutePosition, this.position);
+  }
 };
