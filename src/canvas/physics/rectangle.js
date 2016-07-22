@@ -20,7 +20,6 @@ export class Rectangle extends Body {
   drawOn(ctx) {
     ctx.fillStyle = this.color || "#000";
     ctx.beginPath();
-    ctx.moveTo();
     this.corners.forEach((p, index) => {
       let pencil = (index == 0)? ctx.moveTo : ctx.lineTo;
       let absolutePos = p.absolutePosition;

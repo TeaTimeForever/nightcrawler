@@ -23,7 +23,7 @@ export class Body {
   }
 
   get absolutePosition() {
-    return plus(this.base.absolutePosition, this.position);
+    return plus(this.base.absolutePosition, mul(this.position, this.base.absoluteRotor));
   }
 
   rotate(angle){
@@ -33,5 +33,4 @@ export class Body {
   makeStep(distance){
     this.position = plus(this.position, mul(this.rotor, {x: distance, y: 0}));
   }
-
 };
