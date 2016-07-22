@@ -1,8 +1,8 @@
 /**
  * Created by eq on 22/07/16.
  */
-import { Canvas } from "./lib/canvas"
+import { Canvas } from "./utils/canvas"
 
 var canvas = new Canvas("canvas");
 canvas.initWalls();
-canvas.generatObstacles(20);
+canvas.generateObstacles(20);

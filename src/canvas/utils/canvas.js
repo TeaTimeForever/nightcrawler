@@ -4,22 +4,21 @@
 
 export class Canvas {
 
-  configs = {
-    canvasWidth: 600,
-    canvasLength: 600,
-    minObstacleSize: 10,
-    maxObstacleSize: 40
-  };
-
   constructor(id) {
     this.canvas = document.getElementById(id);
     this.ctx    = canvas.getContext('2d');
+    this.configs = {
+      canvasWidth: 600,
+      canvasLength: 600,
+      minObstacleSize: 10,
+      maxObstacleSize: 40
+    };
 
     this.canvas.width  = this.configs.canvasWidth;
-    this.canvas.length = this.configs.canvasLength;
+    this.canvas.height = this.configs.canvasLength;
   };
 
-  generatObstacles(count) {
+  generateObstacles(count) {
     for(let i=0; i < count; i++) {
       this.ctx.fillRect(
         randomInRange(0, this.configs.canvasWidth-this.configs.maxObstacleSize),
@@ -30,7 +29,7 @@ export class Canvas {
   }
 
   initWalls(){
-    ctx.strokeRect(0, 0, this.configs.canvasWidth, this.configs.canvasLength);
+    this.ctx.strokeRect(0, 0, this.configs.canvasWidth, this.configs.canvasLength);
   }
 }
 
