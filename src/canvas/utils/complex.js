@@ -83,4 +83,4 @@ export const rotor = (angle) => {
  */
 export const arg = (p) => {
   return Math.atan2(p.y, p.x);
-}
+};
