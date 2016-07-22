@@ -81,6 +81,6 @@ export const rotor = (angle) => {
 /**
  * get angle of complex numb
  */
-export const arg = (p) {
+export const arg = (p) => {
   return Math.atan2(p.y, p.x);
 }
