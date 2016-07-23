@@ -69,6 +69,8 @@ export class Canvas {
         // obstacle.makeStep(1);
       });
       robot.drawOn(this.ctx);
+      robot.subobjects[4].rotate(0.1);
+      robot.subobjects[5].rotate(-0.1);
       robot.rotate(0.05);
       robot.makeStep(4);
       requestAnimationFrame(animate);
