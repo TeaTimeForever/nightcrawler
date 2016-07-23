@@ -15,7 +15,11 @@ export class Body {
   constructor(position, angle, base) {
     this.rotor = rotor(angle || 0);
     this.position = position || {x: 0, y: 0};
+    if (base) {
+      base.subobjects.push(this);
+    }
     this.base = base || space;
+    this.subobjects = [];
   };
 
   get absoluteRotor() {
@@ -26,15 +30,19 @@ export class Body {
     return plus(this.base.absolutePosition, mul(this.position, this.base.absoluteRotor));
   }
 
-  rotate(angle){
+  rotate(angle) {
     this.rotor = mul(this.rotor, rotor(angle));
   }
 
-  makeStep(distance){
+  makeStep(distance) {
     this.position = plus(this.position, mul(this.rotor, {x: distance, y: 0}));
   }
 
-  relative(body){
+  relative(body) {
     return div(minus(body.absolutePosition, this.absolutePosition), this.absoluteRotor);
+  }
+
+  drawOn(ctx) {
+    this.subobjects.forEach(obj => obj.drawOn(ctx));
   }
 };

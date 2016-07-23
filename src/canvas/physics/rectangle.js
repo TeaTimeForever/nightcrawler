@@ -1,5 +1,6 @@
 import { Body } from "./body";
 import { Point } from "./point";
+import { drawPolygon } from "../utils/graphics";
 
 export class Rectangle extends Body {
 
@@ -18,15 +19,8 @@ export class Rectangle extends Body {
   }
 
   drawOn(ctx) {
-    ctx.fillStyle = this.color || "#000";
-    ctx.beginPath();
-    this.corners.forEach((p, index) => {
-      let pencil = (index == 0)? ctx.moveTo : ctx.lineTo;
-      let absolutePos = p.absolutePosition;
-      pencil.call(ctx, absolutePos.x, absolutePos.y);
-    });
-    ctx.closePath();
-    ctx.fill();
+    drawPolygon(ctx, this.corners);
+    super.drawOn(ctx);
   }
 
   getEdges(){

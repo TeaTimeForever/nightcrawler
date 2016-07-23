@@ -1,4 +1,5 @@
 import { Rectangle } from "../physics/rectangle";
+import { Sensor } from "../physics/sensor";
 
 export class Canvas {
 
@@ -30,7 +31,33 @@ export class Canvas {
     }
   }
 
+  generateRobot(){
+    var robot = new Rectangle(
+      {width: 32, height: 32},
+      {x: 300, y: 300},
+      0
+    );
+
+    var s1 = new Sensor({
+      sector: 0.3,
+      maxDistance: 100,
+      size: 8
+    }, {
+      x: 16, y: 16
+    }, 0, robot);
+
+    var s2 = new Sensor({
+      sector: 0.3,
+      maxDistance: 100,
+      size: 8
+    }, {
+      x: 16, y: -16
+    }, 0, robot);
+    return robot;
+  }
+
   start(){
+    var robot = this.generateRobot();
     const animate = () => {
       this.ctx.clearRect(0,0,this.configs.canvasWidth, this.configs.canvasHeight);
       this.initWalls();
@@ -40,6 +67,7 @@ export class Canvas {
         // obstacle.rotate(0.01);
         // obstacle.makeStep(1);
       });
+      robot.drawOn(this.ctx);
       requestAnimationFrame(animate);
     };
     animate();
