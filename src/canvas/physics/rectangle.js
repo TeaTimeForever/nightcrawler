@@ -19,7 +19,7 @@ export class Rectangle extends Body {
   }
 
   drawOn(ctx) {
-    drawPolygon(ctx, this.corners);
+    drawPolygon(ctx, this.corners, this.color);
     super.drawOn(ctx);
   }
 

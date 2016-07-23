@@ -53,6 +53,7 @@ export class Canvas {
     }, {
       x: 16, y: -16
     }, 0, robot);
+    robot.color = "#0f0";
     return robot;
   }
 
