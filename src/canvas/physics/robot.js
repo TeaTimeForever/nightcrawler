@@ -48,7 +48,7 @@ export class Robot extends Body {
     switch (command) {
       case "turn left": this.rotate(-0.01); break;
       case "turn right": this.rotate(0.01); break;
-      case "move forward": this.makeStep(0.1); break;
+      case "move forward": this.makeStep(0.5); break;
     }
   }
 
