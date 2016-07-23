@@ -1,5 +1,5 @@
 import { Body } from "./body";
-import { cos } from "../utils/complex";
+import { cos, minus, sin } from "../utils/complex";
 
 export class IdealSensor extends Body {
 
@@ -21,11 +21,12 @@ export class IdealSensor extends Body {
       } else {
         return {
           distance: x,
-          cos: cos(diff)
+          // looks crazy but..
+          // just dont touch
+          // pic.1
+          cos: Math.abs(sin(diff))
         }
       }
-
     }
-
   }
 }

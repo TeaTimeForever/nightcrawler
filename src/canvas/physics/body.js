@@ -1,4 +1,4 @@
-import {rotor, mul, plus } from "../utils/complex";
+import {rotor, mul, plus, div, minus } from "../utils/complex";
 
 const space = {
   absoluteRotor: rotor(0),
