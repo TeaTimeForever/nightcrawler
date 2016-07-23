@@ -41,7 +41,7 @@ export class Canvas {
         // obstacle.makeStep(1);
       });
       requestAnimationFrame(animate);
-    }
+    };
     animate();
   }
 

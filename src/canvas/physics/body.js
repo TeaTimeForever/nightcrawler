@@ -33,4 +33,8 @@ export class Body {
   makeStep(distance){
     this.position = plus(this.position, mul(this.rotor, {x: distance, y: 0}));
   }
+
+  relative(body){
+    return div(minus(body.absolutePosition, this.absolutePosition), this.absoluteRotor);
+  }
 };
