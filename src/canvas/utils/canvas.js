@@ -40,7 +40,7 @@ export class Canvas {
 
     var s1 = new Sensor({
       sector: 0.3,
-      maxDistance: 100,
+      maxDistance: 200,
       size: 8
     }, {
       x: 16, y: 16
@@ -48,7 +48,7 @@ export class Canvas {
 
     var s2 = new Sensor({
       sector: 0.3,
-      maxDistance: 100,
+      maxDistance: 200,
       size: 8
     }, {
       x: 16, y: -16
@@ -68,17 +68,27 @@ export class Canvas {
         // obstacle.rotate(0.01);
         // obstacle.makeStep(1);
       });
+
+      var rightEye = robot.subobjects[4],
+          leftEye = robot.subobjects[5];
+
+      rightEye.rotate(0.001);
+      leftEye.rotate(-0.001);
+
+      var rightEyeObstacles = rightEye.evaluate(this.obstacles) / rightEye.options.maxDistance;
+      var leftEyeObstacles  = leftEye.evaluate(this.obstacles) / leftEye.options.maxDistance;
+
+      rightEye.color = `rgba(0, 0, 255, ${1-rightEyeObstacles})`;
+      leftEye.color = `rgba(0, 0, 255, ${1-leftEyeObstacles})`;
+      robot.rotate(0.005);
+      robot.makeStep(0.1);
       robot.drawOn(this.ctx);
-      robot.subobjects[4].rotate(0.1);
-      robot.subobjects[5].rotate(-0.1);
-      robot.rotate(0.05);
-      robot.makeStep(4);
       requestAnimationFrame(animate);
     };
     animate();
   }
 
-  initWalls(){
+  initWalls() {
     this.ctx.strokeRect(0, 0, this.configs.canvasWidth, this.configs.canvasHeight);
   }
 }

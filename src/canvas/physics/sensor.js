@@ -30,9 +30,22 @@ export class Sensor extends Body {
     ]
   }
 
+  evaluate(obstacles) {
+    var results = this.detectors.map(d => {
+      var seen = d.evaluate(obstacles);
+      if(seen == null) {
+        return this.options.maxDistance;
+      } else {
+        return Math.min(seen.distance, this.options.maxDistance);
+      }
+    });
+
+    return results.reduce((a,b) => a+b, 0) / results.length;
+  }
+
   drawOn(ctx) {
     let absolutePos = this.absolutePosition;
-    ctx.fillStyle = "rgb(0,0,255)";
+    ctx.fillStyle = this.color || "rgb(0,0,255)";
     ctx.beginPath();
     ctx.arc(
       absolutePos.x,

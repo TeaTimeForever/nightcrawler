@@ -29,4 +29,19 @@ export class IdealSensor extends Body {
       }
     }
   }
+
+  evaluate(obstacles){
+    var bestSeen = null;
+    obstacles.forEach(o => {
+      o.getEdges().forEach(([p1, p2]) => {
+        let seen = this.doesSee(p1, p2);
+        if(seen) {
+          if(!bestSeen || seen.distance < bestSeen.distance) {
+            bestSeen = seen;
+          }
+        }
+      });
+    });
+    return bestSeen;
+  }
 }
