@@ -28,4 +28,16 @@ export class Rectangle extends Body {
     ctx.closePath();
     ctx.fill();
   }
+
+  getEdges(){
+    return [[
+      this.corners[0], this.corners[1]
+    ],[
+      this.corners[1], this.corners[2]
+    ],[
+      this.corners[2], this.corners[3]
+    ],[
+      this.corners[3], this.corners[0]
+    ]];
+  }
 }
