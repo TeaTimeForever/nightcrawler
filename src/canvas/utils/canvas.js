@@ -1,5 +1,6 @@
 import { Rectangle } from "../physics/rectangle";
 import { Sensor } from "../physics/sensor";
+import { Robot } from "../physics/robot";
 
 export class Canvas {
 
@@ -31,57 +32,16 @@ export class Canvas {
     }
   }
 
-  generateRobot(){
-    var robot = new Rectangle(
-      {width: 32, height: 32},
-      {x: 300, y: 300},
-      0
-    );
-
-    var s1 = new Sensor({
-      sector: 0.3,
-      maxDistance: 200,
-      size: 8
-    }, {
-      x: 16, y: 16
-    }, 0, robot);
-
-    var s2 = new Sensor({
-      sector: 0.3,
-      maxDistance: 200,
-      size: 8
-    }, {
-      x: 16, y: -16
-    }, 0, robot);
-    robot.color = "#0f0";
-    return robot;
-  }
-
   start(){
-    var robot = this.generateRobot();
+    var robot = new Robot({x: 300, y: 300});
     const animate = () => {
       this.ctx.clearRect(0,0,this.configs.canvasWidth, this.configs.canvasHeight);
       this.initWalls();
       this.obstacles.forEach(obstacle => {
         obstacle.drawOn(this.ctx);
-        // uncomment if sad
-        // obstacle.rotate(0.01);
-        // obstacle.makeStep(1);
       });
 
-      var rightEye = robot.subobjects[4],
-          leftEye = robot.subobjects[5];
-
-      rightEye.rotate(0.001);
-      leftEye.rotate(-0.001);
-
-      var rightEyeObstacles = rightEye.evaluate(this.obstacles) / rightEye.options.maxDistance;
-      var leftEyeObstacles  = leftEye.evaluate(this.obstacles) / leftEye.options.maxDistance;
-
-      rightEye.color = `rgba(0, 0, 255, ${1-rightEyeObstacles})`;
-      leftEye.color = `rgba(0, 0, 255, ${1-leftEyeObstacles})`;
-      robot.rotate(0.005);
-      robot.makeStep(0.1);
+      robot.step(this.obstacles);
       robot.drawOn(this.ctx);
       requestAnimationFrame(animate);
     };
