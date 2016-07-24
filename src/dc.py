@@ -38,17 +38,19 @@ def motorB(run, clockwise):
         GPIO.output(38, False)
         GPIO.output(37, True)
 
-
-while True:
-    motorA(True, True)
-    time.sleep(1)
-    motorB(True, True)
-    time.sleep(1)
-    motorA(True, False)
-    time.sleep(1)
-    motorB(True, False)
-    time.sleep(1)
-    motorA(False,True)
-    time.sleep(1)
-    motorB(False, True)
-    time.sleep(1)
+try:
+    while True:
+        motorA(True, True)
+        time.sleep(1)
+        motorB(True, True)
+        time.sleep(1)
+        motorA(True, False)
+        time.sleep(1)
+        motorB(True, False)
+        time.sleep(1)
+        motorA(False,True)
+        time.sleep(1)
+        motorB(False, True)
+        time.sleep(1)
+except KeyboardInterrupt:
+    GPIO.cleanup()
