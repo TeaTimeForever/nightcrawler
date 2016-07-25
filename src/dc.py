@@ -13,11 +13,15 @@ GPIO.output(36, False)
 GPIO.output(37, False)
 GPIO.output(38, False)
 
-def motorA(run, clockwise):
-    if not run:
-        GPIO.output(35, False)
-        GPIO.output(36, False)
-        return
+def motorAStop():
+    GPIO.output(35, False)
+    GPIO.output(36, False)
+
+def motorBStop():
+    GPIO.output(37, False)
+    GPIO.output(38, False)
+
+def motorASpin(clockwise):
     if clockwise:
         GPIO.output(35, False)
         GPIO.output(36, True)
@@ -25,12 +29,7 @@ def motorA(run, clockwise):
         GPIO.output(36, False)
         GPIO.output(35, True)
 
-
-def motorB(run, clockwise):
-    if not run:
-        GPIO.output(37, False)
-        GPIO.output(38, False)
-        return
+def motorBSpin(clockwise):
     if clockwise:
         GPIO.output(37, False)
         GPIO.output(38, True)
@@ -40,17 +39,17 @@ def motorB(run, clockwise):
 
 try:
     while True:
-        motorA(True, True)
+        motorASpin(True)
         time.sleep(1)
-        motorB(True, True)
+        motorBSpin(True)
         time.sleep(1)
-        motorA(True, False)
+        motorASpin(False)
         time.sleep(1)
-        motorB(True, False)
+        motorBSpin(False)
         time.sleep(1)
-        motorA(False,True)
+        motorAStop()
         time.sleep(1)
-        motorB(False, True)
+        motorBStop()
         time.sleep(1)
 except KeyboardInterrupt:
     GPIO.cleanup()
