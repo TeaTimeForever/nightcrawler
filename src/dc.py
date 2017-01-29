@@ -21,35 +21,57 @@ def motorBStop():
     GPIO.output(37, False)
     GPIO.output(38, False)
 
-def motorASpin(clockwise):
-    if clockwise:
+def motorASpin(forward):
+    if forward:
         GPIO.output(35, False)
         GPIO.output(36, True)
     else:
         GPIO.output(36, False)
         GPIO.output(35, True)
 
-def motorBSpin(clockwise):
-    if clockwise:
-        GPIO.output(37, False)
-        GPIO.output(38, True)
-    else:
+def motorBSpin(forward):
+    if forward:
         GPIO.output(38, False)
         GPIO.output(37, True)
+    else:
+        GPIO.output(37, False)
+        GPIO.output(38, True)
+
+
+def forwardAndBackward():
+    motorASpin(True)
+    motorBSpin(True)
+    time.sleep(3)
+    motorAStop()
+    motorBStop()
+    time.sleep(0.5)
+    motorASpin(False)
+    motorBSpin(False)
+    time.sleep(3)
+    motorAStop()
+    motorBStop()
+    time.sleep(0.5)
+
+
+def spin():
+    motorASpin(True)
+    motorBSpin(False)
+    time.sleep(3)
+    motorAStop()
+    motorBStop()
+    time.sleep(0.5)
+    motorASpin(False)
+    motorBSpin(True)
+    time.sleep(3)
+    motorAStop()
+    motorBStop()
+    time.sleep(0.5)
+
 
 try:
     while True:
-        motorASpin(True)
-        time.sleep(1)
-        motorBSpin(True)
-        time.sleep(1)
-        motorASpin(False)
-        time.sleep(1)
-        motorBSpin(False)
-        time.sleep(1)
-        motorAStop()
-        time.sleep(1)
-        motorBStop()
-        time.sleep(1)
+        '''forwardAndBackward()'''
+        spin()
+
 except KeyboardInterrupt:
     GPIO.cleanup()
