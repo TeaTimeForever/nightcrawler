@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-SERVO = 7
+SERVO = 33
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(SERVO, GPIO.OUT)
 p = GPIO.PWM(SERVO, 50)
@@ -15,7 +15,7 @@ try:
         time.sleep(1)
         p.ChangeDutyCycle(2.5)
         time.sleep(1)
-        print "Done loop"
+        print("Done loop")
 
 except KeyboardInterrupt:
     p.stop()
