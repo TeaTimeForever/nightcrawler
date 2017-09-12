@@ -12,9 +12,11 @@ GPIO.setup(DISTANCE_IN_PIN, GPIO.IN)
 p = GPIO.PWM(SERVO_PIN, 50)
 p.start(2.5)
 
+
 def turn(angle):
-	dutyCycle = 2.5 + angle/18.0
-	p.ChangeDutyCycle(dutyCycle)
+	dut_cycle = 2.5 + angle / 18.0
+	p.ChangeDutyCycle(dut_cycle)
+
 
 def distance():
 	GPIO.output(DISTANCE_OUT_PIN, True)
@@ -29,15 +31,16 @@ def distance():
 		pass
 	return (time.time() - start) * 17150
 
+
 try:
 	while True:
 		angle = 0
-		while angle<=180:
+		while angle <= 180:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
 			angle += 15
 			time.sleep(0.1)
-		while angle>=0:
+		while angle >= 0:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
 			angle -= 15
