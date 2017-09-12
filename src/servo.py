@@ -38,12 +38,12 @@ try:
 		while angle <= 180:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
-			angle += 15
+			angle += 45
 			time.sleep(0.1)
 		while angle >= 0:
 			turn(angle)
 			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
-			angle -= 15
+			angle -= 45
 			time.sleep(0.1)	
 except KeyboardInterrupt:
 	p.stop()
