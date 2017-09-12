@@ -13,13 +13,13 @@ GPIO.setup(_SONAR_TRIGGER_PIN, GPIO.OUT)
 GPIO.setup(_SONAR_ECHO_PIN, GPIO.IN)
 
 
-def distance() -> float:
+def distance():
 	return sum(
 		[raw_distance() for _ in range(_SAMPLE_SIZE)]
 	) / _SAMPLE_SIZE
 
 
-def raw_distance() -> float:
+def raw_distance():
 	GPIO.output(_SONAR_TRIGGER_PIN, True)
 	time.sleep(1/200000)
 	GPIO.output(_SONAR_TRIGGER_PIN, False)
@@ -36,8 +36,8 @@ def raw_distance() -> float:
 
 try:
 	while True:
-		distance = distance()
-		print(str(distance) + " cm")
+		cm = distance()
+		print(str(cm) + " cm")
 		time.sleep(_FREQUENCY_SEC)
 except KeyboardInterrupt:
 	GPIO.cleanup()
