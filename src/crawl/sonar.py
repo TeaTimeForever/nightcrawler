@@ -3,9 +3,8 @@ from typing import Callable, Dict
 import RPi.GPIO as GPIO
 import time
 
-Angle = int
-Distance = float
-Pin = int
+from src.crawl.types import *
+
 _FREQUENCY = 0.1
 _SAMPLE_SIZE = 3
 
