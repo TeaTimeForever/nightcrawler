@@ -25,3 +25,4 @@ class PrintObserver(Observer):
 source = Observable.create(push_five_strings)
 
 source.subscribe(PrintObserver())
+source.subscribe(PrintObserver())

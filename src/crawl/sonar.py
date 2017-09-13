@@ -1,50 +1,69 @@
-from rx import Observable, Observer
-import RPi.GPIO
-import time
-from enum import Enum
+from typing import Callable, Dict
 
-_FREQUENCY_SEC = 0.1
+import RPi.GPIO as GPIO
+import time
+
+Angle = int
+Distance = float
+Pin = int
+_FREQUENCY = 0.1
 _SAMPLE_SIZE = 3
 
-_SONAR_TRIGGER_PIN = 31
-_SONAR_ECHO_PIN = 32
-_SERVO_PIN = 33
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(_SONAR_TRIGGER_PIN, GPIO.OUT)
-GPIO.setup(_SONAR_ECHO_PIN, GPIO.IN)
-GPIO.setup(_SERVO_PIN, GPIO.OUT)
-p = GPIO.PWM(_SERVO_PIN, 50)
-p.start(2.5)
+class Sonar:
+	_trigger_pin: int
+	_echo_pin: int
 
+	def __init__(self, trigger_pin: Pin, echo_pin: Pin):
+		self._trigger_pin = trigger_pin
+		self._echo_pin = echo_pin
+		GPIO.setup(self._trigger_pin, GPIO.OUT)
+		GPIO.setup(self._echo_pin, GPIO.IN)
 
-def distance():
-	return sum(
-		[raw_distance() for _ in range(_SAMPLE_SIZE)]
-	) / _SAMPLE_SIZE
+	def wait_until(self, predicate: Callable[[Distance], bool]):
+		while not predicate(self.distance()):
+			time.sleep(_FREQUENCY)
 
+	def distance(self) -> Distance:
+		return sum([self._raw_distance() for _ in range(_SAMPLE_SIZE)]) / _SAMPLE_SIZE
 
-def raw_distance():
-	GPIO.output(_SONAR_TRIGGER_PIN, True)
-	time.sleep(1/200000)
-	GPIO.output(_SONAR_TRIGGER_PIN, False)
-
-	while not GPIO.input(_SONAR_ECHO_PIN):
-		pass
-	start = time.time()
-
-	while GPIO.input(_SONAR_ECHO_PIN):
-		pass
-	delta = time.time() - start
-	return delta * 17150
+	def _raw_distance(self) -> Distance:
+		GPIO.output(self._trigger_pin, True)
+		time.sleep(1 / 200000)
+		GPIO.output(self._trigger_pin, False)
+		while not GPIO.input(self._echo_pin):
+			pass
+		start = time.time()
+		while GPIO.input(self._echo_pin):
+			pass
+		delta = time.time() - start
+		return delta * 17150
 
 
-try:
-	while True:
-		distance = measure_distance()
-		print(str(distance) + " cm")
-		time.sleep(1)
+class RotatingSonar(Sonar):
+	_servo_pwm: any
 
-except KeyboardInterrupt:
-	GPIO.cleanup()
+	def __init__(self, trigger_pin: Pin, echo_pin: Pin, servo_pin: Pin):
+		super().__init__(trigger_pin, echo_pin)
+		GPIO.setup(servo_pin, GPIO.OUT)
+		self._servo_pwm = GPIO.PWM(servo_pin, 50)
+		self._servo_pwm.start(2.5)
+		self.home()
+
+	def wait_until(self, predicates: Dict[Angle, Callable[[Distance], bool]]) -> Angle:
+		while True:
+			for angle, predicate in predicates.items():
+				self.turn(angle)
+				if (not predicate(self.distance())):
+					return angle
+				time.sleep(_FREQUENCY)
+
+	def home(self):
+		self.turn(90)
+
+	def turn(self, angle: int):
+		dut_cycle = 2.5 + angle / 18.0
+		self._servo_pwm.ChangeDutyCycle(dut_cycle)
+
+	def close(self):
+		self._servo_pwm.stop()
