@@ -1,2 +1,2 @@
 nano .bash_profile<br>
-export PYTHONPATH="...../nightcrawler/src/py" 
+export PYTHONPATH="/home/pi/nightcrawler/src/py" 
