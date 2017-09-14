@@ -1,9 +1,9 @@
 from crawl.sonar import RotatingSonar
-
+from crawl.types import Distance
 from crawl.drive import forward, stop
 
-_MIN_FRONT_DISTANCE = 25
-_MIN_SIDE_DISTANCE = 25
+_MIN_FRONT_DISTANCE: Distance = 25
+_MIN_SIDE_DISTANCE: Distance = 25
 ROTATING_SONAR = RotatingSonar(31, 32, 33)
 
 
