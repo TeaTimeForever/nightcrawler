@@ -10,8 +10,8 @@ _SAMPLE_SIZE = 3
 
 
 class Sonar:
-	_trigger_pin: int
-	_echo_pin: int
+	# _trigger_pin: int
+	# _echo_pin: int
 
 	def __init__(self, trigger_pin: Pin, echo_pin: Pin):
 		self._trigger_pin = trigger_pin
