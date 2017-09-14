@@ -40,7 +40,7 @@ class Sonar:
 
 
 class RotatingSonar(Sonar):
-	_servo_pwm: any
+	# _servo_pwm: any
 
 	def __init__(self, trigger_pin: Pin, echo_pin: Pin, servo_pin: Pin):
 		super().__init__(trigger_pin, echo_pin)
