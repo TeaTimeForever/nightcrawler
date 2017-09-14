@@ -1,7 +1,6 @@
 import RPi.GPIO as GPIO
 
-from src.crawl import drive
-from src.crawl.brain import find_wall_in_front
+from crawl import drive
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)

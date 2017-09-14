@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 
-from src.crawl.types import Pin
+from crawl.types import Pin
 
 _RIGHT_FORWARD_PIN: Pin = 35
 _RIGHT_BACKWARD_PIN: Pin = 36
