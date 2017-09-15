@@ -3,7 +3,7 @@ from typing import Callable, Dict
 import RPi.GPIO as GPIO
 import time
 
-from crawl.types import Pin, Distance, Angle
+from crawl.__types import Pin, Distance, Angle
 
 _FREQUENCY = 0.1
 _SAMPLE_SIZE = 3
