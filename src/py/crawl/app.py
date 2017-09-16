@@ -3,9 +3,9 @@ import RPi.GPIO as GPIO
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
-from crawl.brain import find_wall_in_front
+from crawl.brain import crawl1
 
 try:
-	find_wall_in_front()
+	crawl1()
 except KeyboardInterrupt:
 	GPIO.cleanup()

@@ -1,12 +1,19 @@
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 
 import RPi.GPIO as GPIO
 import time
 
 from crawl.__types import Pin, Distance, Angle
+from crawl.rule import Rule
+
+LEFT: Angle = 0
+FRONT: Angle = 90
+RIGHT: Angle = 180
 
 _FREQUENCY = 0.1
 _SAMPLE_SIZE = 3
+
+_SERVO_FREQUENCY = 0.2
 
 
 class Sonar:
@@ -20,7 +27,7 @@ class Sonar:
 		GPIO.setup(self._echo_pin, GPIO.IN)
 
 	def wait_until(self, predicate: Callable[[Distance], bool]):
-		while not predicate(self.distance()):
+		while predicate(self.distance()):
 			time.sleep(_FREQUENCY)
 
 	def distance(self) -> Distance:
@@ -49,16 +56,16 @@ class RotatingSonar(Sonar):
 		self._servo_pwm.start(2.5)
 		self.home()
 
-	def wait_until(self, predicates: Dict[Angle, Callable[[Distance], bool]]) -> Angle:
+	def wait_until(self, rules: List[Rule]) -> str:
 		while True:
-			for angle, predicate in predicates.items():
-				self.turn(angle)
-				if (not predicate(self.distance())):
-					return angle
-				time.sleep(_FREQUENCY)
+			for rule in rules:
+				self.turn(rule.angle)
+				if rule.predicate(self.distance()):
+					return rule.key
+				time.sleep(_SERVO_FREQUENCY)
 
 	def home(self):
-		self.turn(90)
+		self.turn(FRONT)
 
 	def turn(self, angle: int):
 		dut_cycle = 2.5 + angle / 18.0
