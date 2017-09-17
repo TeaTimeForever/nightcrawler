@@ -6,9 +6,9 @@ import time
 from crawl.__types import Pin, Distance, Angle
 from crawl.rule import Rule
 
-LEFT: Angle = 0
+RIGHT: Angle = 0
 FRONT: Angle = 90
-RIGHT: Angle = 180
+LEFT: Angle = 180
 
 _FREQUENCY = 0.1
 _SAMPLE_SIZE = 3
