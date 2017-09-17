@@ -32,19 +32,29 @@ def distance():
 	return (time.time() - start) * 17150
 
 
-try:
+def scan_around():
 	while True:
 		angle = 0
 		while angle <= 180:
 			turn(angle)
-			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
+			print("angle = " + str(angle) + "; distance=" + str(distance()) + " cm")
 			angle += 45
 			time.sleep(0.1)
 		while angle >= 0:
 			turn(angle)
-			print("angle = "+str(angle)+"; distance="+str(distance()) + " cm")
+			print("angle = " + str(angle) + "; distance=" + str(distance()) + " cm")
 			angle -= 45
-			time.sleep(0.1)	
+			time.sleep(0.1)
+
+
+def angle_distance():
+	turn(0)
+	print(str(distance()))
+
+
+try:
+	# scan_around()
+	angle_distance()
 except KeyboardInterrupt:
 	p.stop()
 	GPIO.cleanup()
