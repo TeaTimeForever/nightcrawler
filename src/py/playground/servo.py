@@ -50,6 +50,8 @@ def scan_around():
 def angle_distance():
 	turn(0)
 	print(str(distance()))
+	p.stop()
+	GPIO.cleanup()
 
 
 try:
