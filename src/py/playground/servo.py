@@ -35,12 +35,12 @@ def distance():
 def scan_around():
 	while True:
 		angle = 0
-		while angle <= 180:
+		while angle < 180:
 			turn(angle)
 			print("angle = " + str(angle) + "; distance=" + str(distance()) + " cm")
 			angle += 45
 			time.sleep(0.1)
-		while angle >= 0:
+		while angle > 0:
 			turn(angle)
 			print("angle = " + str(angle) + "; distance=" + str(distance()) + " cm")
 			angle -= 45
