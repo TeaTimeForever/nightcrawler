@@ -55,6 +55,7 @@ def angle_distance():
 
 
 try:
+	time.sleep(0.1)
 	# scan_around()
 	angle_distance()
 except KeyboardInterrupt:
