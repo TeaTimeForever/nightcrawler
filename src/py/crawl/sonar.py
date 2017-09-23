@@ -48,13 +48,13 @@ class Sonar:
 
 
 class RotatingSonar(Sonar):
-	_servo_pwm: any
 
 	def __init__(self, trigger_pin: Pin, echo_pin: Pin, servo_pin: Pin):
 		super().__init__(trigger_pin, echo_pin)
 		GPIO.setup(servo_pin, GPIO.OUT)
 		self._servo_pwm = GPIO.PWM(servo_pin, 50)
 		self._servo_pwm.start(2.5)
+		self._angle: Angle = -1
 		self.home()
 
 	def wait_until(self, rules: List[Rule]) -> str:
@@ -71,9 +71,12 @@ class RotatingSonar(Sonar):
 		self.turn(FRONT)
 
 	def turn(self, angle: int):
+		if self._angle == angle:
+			return
 		dut_cycle = 2.5 + angle / 18.0
 		self._servo_pwm.ChangeDutyCycle(dut_cycle)
 		time.sleep(_SERVO_TIMEOUT)
+		self._angle = angle
 
 	def close(self):
 		self._servo_pwm.stop()
