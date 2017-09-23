@@ -1,12 +1,10 @@
-import time
-
 from crawl.__types import Distance
 import crawl.drive as drive
 import crawl.sonar as sonar
 from crawl.rule import Rule
 
 _MIN_FRONT_DISTANCE: Distance = 20
-_SIDE_DISTANCE: Distance = _MIN_FRONT_DISTANCE + 5
+_SIDE_DISTANCE: Distance = _MIN_FRONT_DISTANCE + 10
 _DISTANCE_TOLERANCE: Distance = 1
 ROTATING_SONAR = sonar.RotatingSonar(31, 32, 33)
 
