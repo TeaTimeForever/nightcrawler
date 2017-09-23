@@ -8,7 +8,7 @@ from crawl.rule import Rule
 _MIN_FRONT_DISTANCE: Distance = 20
 _SIDE_DISTANCE: Distance = _MIN_FRONT_DISTANCE + 10
 _DISTANCE_TOLERANCE: Distance = 5
-_DRIVE_DELAY = 0.3
+_DRIVE_DELAY = 0.2
 ROTATING_SONAR = sonar.RotatingSonar(31, 32, 33)
 
 
