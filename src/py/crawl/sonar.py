@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List
+from typing import Callable, List
 
 import RPi.GPIO as GPIO
 import time

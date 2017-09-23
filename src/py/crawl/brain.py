@@ -1,6 +1,4 @@
-from enum import Enum
-
-from crawl.__types import Distance, Angle
+from crawl.__types import Distance
 import crawl.drive as drive
 import crawl.sonar as sonar
 from crawl.rule import Rule
