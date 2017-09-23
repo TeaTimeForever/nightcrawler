@@ -1,4 +1,6 @@
 import RPi.GPIO as GPIO
+import time
+
 from crawl.__types import Pin
 
 _RIGHT_FORWARD_PIN: Pin = 36
@@ -14,6 +16,8 @@ GPIO.output(_RIGHT_FORWARD_PIN, False)
 GPIO.output(_RIGHT_BACKWARD_PIN, False)
 GPIO.output(_LEFT_FORWARD_PIN, False)
 GPIO.output(_LEFT_BACKWARD_PIN, False)
+
+_INERTIA_TIMEOUT: int = 0.3
 
 
 def _right_stop():
@@ -62,6 +66,7 @@ def stop():
 	print("stop")
 	_right_stop()
 	_left_stop()
+	time.sleep(_INERTIA_TIMEOUT)
 
 
 def turn_right():

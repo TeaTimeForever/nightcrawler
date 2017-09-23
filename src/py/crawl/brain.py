@@ -29,6 +29,7 @@ def stop_at_wall_in_front():
 	drive.forward()
 	ROTATING_SONAR.wait_until([_FRONT_RULE])
 	drive.stop()
+	drive.backward()
 	ROTATING_SONAR.wait_until([_BACK_RULE])
 	drive.stop()
 
@@ -44,6 +45,7 @@ def follow_the_wall() -> str:
 	drive.forward()
 	rule_id = ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_CLOSE_RULE, _LEFT_TOO_FAR_RULE])
 	drive.stop()
+	drive.backward()
 	ROTATING_SONAR.wait_until([_BACK_RULE])
 	drive.stop()
 	return rule_id
