@@ -1,3 +1,5 @@
+import time
+
 from crawl.__types import Distance
 import crawl.drive as drive
 import crawl.sonar as sonar
@@ -6,6 +8,7 @@ from crawl.rule import Rule
 _MIN_FRONT_DISTANCE: Distance = 20
 _SIDE_DISTANCE: Distance = _MIN_FRONT_DISTANCE + 10
 _DISTANCE_TOLERANCE: Distance = 5
+_DRIVE_DELAY = 1
 ROTATING_SONAR = sonar.RotatingSonar(31, 32, 33)
 
 
@@ -25,11 +28,19 @@ def stop_at_wall_in_front():
 	drive.forward()
 	ROTATING_SONAR.wait_until([_FRONT_RULE])
 	drive.stop()
+	time.sleep(_DRIVE_DELAY)
+	drive.backward()
+	time.sleep(_DRIVE_DELAY)
+	drive.stop()
 
 
 def turn_sharp_right_until_wall_is_on_left():
 	drive.sharp_turn_right()
 	ROTATING_SONAR.wait_until([_LEFT_NOT_TOO_FAR_RULE])
+	drive.stop()
+	time.sleep(_DRIVE_DELAY)
+	drive.sharp_turn_left()
+	time.sleep(_DRIVE_DELAY)
 	drive.stop()
 
 
@@ -38,6 +49,10 @@ def follow_the_wall() -> str:
 	drive.forward()
 	rule_id = ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_CLOSE_RULE, _LEFT_TOO_FAR_RULE])
 	drive.stop()
+	time.sleep(_DRIVE_DELAY)
+	drive.backward()
+	time.sleep(_DRIVE_DELAY)
+	drive.stop()
 	return rule_id
 
 
@@ -45,11 +60,19 @@ def turn_right_until_wall_is_on_left():
 	drive.turn_right()
 	ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_NOT_TOO_CLOSE_RULE])
 	drive.stop()
+	time.sleep(_DRIVE_DELAY)
+	drive.sharp_turn_left()
+	time.sleep(_DRIVE_DELAY / 2)
+	drive.stop()
 
 
 def turn_left_until_wall_is_on_left():
 	drive.turn_left()
 	ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_NOT_TOO_FAR_RULE])
+	drive.stop()
+	time.sleep(_DRIVE_DELAY)
+	drive.sharp_turn_right()
+	time.sleep(_DRIVE_DELAY / 2)
 	drive.stop()
 
 
