@@ -13,7 +13,8 @@ LEFT: Angle = 180
 _FREQUENCY = 0.1
 _SAMPLE_SIZE = 3
 
-_SERVO_FREQUENCY = 0.2
+_SONAR_FREQUENCY = 0.1
+_SERVO_TIMEOUT = 0.3
 
 
 class Sonar:
@@ -64,7 +65,7 @@ class RotatingSonar(Sonar):
 				if rule.predicate(distance):
 					print(rule.key + ":" + str(distance))
 					return rule.key
-				time.sleep(_SERVO_FREQUENCY)
+				time.sleep(_SONAR_FREQUENCY)
 
 	def home(self):
 		self.turn(FRONT)
@@ -72,7 +73,7 @@ class RotatingSonar(Sonar):
 	def turn(self, angle: int):
 		dut_cycle = 2.5 + angle / 18.0
 		self._servo_pwm.ChangeDutyCycle(dut_cycle)
-		time.sleep(0.01)
+		time.sleep(_SERVO_TIMEOUT)
 
 	def close(self):
 		self._servo_pwm.stop()
