@@ -5,7 +5,7 @@ from crawl.rule import Rule
 
 _MIN_FRONT_DISTANCE: Distance = 20
 _MIN_SIDE_DISTANCE: Distance = _MIN_FRONT_DISTANCE + 10
-_DISTANCE_TOLERANCE: Distance = 0.1
+_DISTANCE_TOLERANCE: Distance = 5
 ROTATING_SONAR = sonar.RotatingSonar(31, 32, 33)
 
 
@@ -30,6 +30,7 @@ def turn_sharp_right_until_wall_is_on_left():
 
 
 def follow_the_wall() -> str:
+	print("follow_the_wall")
 	drive.forward()
 	rule_id = ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_CLOSE_RULE, _LEFT_TOO_FAR_RULE])
 	drive.stop()

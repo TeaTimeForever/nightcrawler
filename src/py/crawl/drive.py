@@ -77,7 +77,7 @@ def sharp_turn_right():
 
 
 def turn_left():
-	print("sharp_turn_right")
+	print("turn_right")
 	_left_stop()
 	_right_forward()
 
