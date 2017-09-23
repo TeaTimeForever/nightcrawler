@@ -60,7 +60,9 @@ class RotatingSonar(Sonar):
 		while True:
 			for rule in rules:
 				self.turn(rule.angle)
-				if rule.predicate(self.distance()):
+				distance = self.distance()
+				if rule.predicate(distance):
+					print(rule.key + ":" + str(distance))
 					return rule.key
 				time.sleep(_SERVO_FREQUENCY)
 

@@ -27,17 +27,13 @@ def stop_at_wall_in_front():
 
 def turn_sharp_right_until_wall_is_on_left():
 	drive.sharp_turn_right()
-	ROTATING_SONAR.wait_until([
-		_LEFT_TOO_CLOSE_RULE
-	])
+	ROTATING_SONAR.wait_until([_LEFT_TOO_CLOSE_RULE])
 	drive.stop()
 
 
 def follow_the_wall() -> str:
 	drive.forward()
-	rule_id = ROTATING_SONAR.wait_until([
-		_FRONT_RULE,_LEFT_TOO_CLOSE_RULE,_LEFT_TOO_FAR_RULE
-	])
+	rule_id = ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_CLOSE_RULE, _LEFT_TOO_FAR_RULE])
 	drive.stop()
 	return rule_id
 
@@ -66,8 +62,9 @@ _RULE_TO_ACTION_MAP = {
 
 
 def crawl1():
-	rule_key = "front"
+	print("start crawling")
 	stop_at_wall_in_front()
+	rule_key = "front"
 	while True:
 		_RULE_TO_ACTION_MAP[rule_key]()
 		rule_key = follow_the_wall()
