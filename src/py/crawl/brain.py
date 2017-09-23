@@ -27,7 +27,7 @@ def stop_at_wall_in_front():
 
 def turn_sharp_right_until_wall_is_on_left():
 	drive.sharp_turn_right()
-	ROTATING_SONAR.wait_until([_LEFT_TOO_CLOSE_RULE])
+	ROTATING_SONAR.wait_until([_LEFT_TOO_FAR_RULE])
 	drive.stop()
 
 
@@ -40,17 +40,13 @@ def follow_the_wall() -> str:
 
 def turn_right_until_wall_is_on_left():
 	drive.turn_right()
-	ROTATING_SONAR.wait_until([
-		_FRONT_RULE, _LEFT_TOO_FAR_RULE
-	])
+	ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_FAR_RULE])
 	drive.stop()
 
 
 def turn_left_until_wall_is_on_left():
 	drive.turn_left()
-	ROTATING_SONAR.wait_until([
-		_FRONT_RULE, _LEFT_TOO_CLOSE_RULE
-	])
+	ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_CLOSE_RULE])
 	drive.stop()
 
 

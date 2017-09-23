@@ -72,6 +72,7 @@ class RotatingSonar(Sonar):
 	def turn(self, angle: int):
 		dut_cycle = 2.5 + angle / 18.0
 		self._servo_pwm.ChangeDutyCycle(dut_cycle)
+		time.sleep(0.01)
 
 	def close(self):
 		self._servo_pwm.stop()
