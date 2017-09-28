@@ -34,7 +34,7 @@ class Wheel:
 		else:
 			if self._speed > 0:
 				self._forward.ChangeDutyCycle(0)
-			self._backward.ChangeDutyCycle(speed)
+			self._backward.ChangeDutyCycle(-speed)
 
 		self._speed = speed
 
