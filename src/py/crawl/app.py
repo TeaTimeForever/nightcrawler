@@ -1,12 +1,11 @@
 import RPi.GPIO as GPIO
-import time
+
+from crawl import drive
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
-from crawl.drive import forward, stop
-
-from crawl.brain import crawl1
+from crawl.brain import crawl1, forward_backward
 
 # try:
 # 	crawl1()
@@ -14,8 +13,7 @@ from crawl.brain import crawl1
 # 	GPIO.cleanup()
 
 try:
-	forward(10)
-	time.sleep(10)
+	forward_backward()
 except KeyboardInterrupt:
-	stop()
+	drive.close()
 	GPIO.cleanup()

@@ -15,16 +15,10 @@ _INERTIA_TIMEOUT: int = 0.3
 _DC_FREQUENCY: int = 10
 
 
-def forward(speed: Speed):
-	print("forward")
-	_RIGHT.forward(speed)
-	_LEFT.forward(speed)
-
-
-def backward(speed: Speed):
-	print("backward")
-	_RIGHT.backward(speed)
-	_LEFT.backward(speed)
+def straight(speed: Speed):
+	print("straight")
+	_RIGHT.go(speed)
+	_LEFT.go(speed)
 
 
 def stop():
@@ -33,6 +27,11 @@ def stop():
 	_LEFT.stop()
 	time.sleep(_INERTIA_TIMEOUT)
 
+
+def close():
+	print("close")
+	_RIGHT.close()
+	_LEFT.close()
 
 def turn_right():
 	print("turn_right")
