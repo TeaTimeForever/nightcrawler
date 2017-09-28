@@ -1,11 +1,11 @@
 import RPi.GPIO as GPIO
 
-from crawl import drive
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
 from crawl.brain import crawl1, forward_backward
+from crawl import drive
 
 # try:
 # 	crawl1()
