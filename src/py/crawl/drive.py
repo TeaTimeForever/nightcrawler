@@ -1,93 +1,51 @@
-import RPi.GPIO as GPIO
 import time
 
-from crawl.__types import Pin
+from crawl.wheel import Wheel
+from crawl.__types import Pin, Speed
 
 _RIGHT_FORWARD_PIN: Pin = 36
 _RIGHT_BACKWARD_PIN: Pin = 35
 _LEFT_FORWARD_PIN: Pin = 37
 _LEFT_BACKWARD_PIN: Pin = 38
-GPIO.setup(_RIGHT_FORWARD_PIN, GPIO.OUT)
-GPIO.setup(_RIGHT_BACKWARD_PIN, GPIO.OUT)
-GPIO.setup(_LEFT_FORWARD_PIN, GPIO.OUT)
-GPIO.setup(_LEFT_BACKWARD_PIN, GPIO.OUT)
 
-GPIO.output(_RIGHT_FORWARD_PIN, False)
-GPIO.output(_RIGHT_BACKWARD_PIN, False)
-GPIO.output(_LEFT_FORWARD_PIN, False)
-GPIO.output(_LEFT_BACKWARD_PIN, False)
+_RIGHT = Wheel(36, 35)
+_LEFT = Wheel(37, 38)
 
 _INERTIA_TIMEOUT: int = 0.3
+_DC_FREQUENCY: int = 10
 
 
-def _right_stop():
-	GPIO.output(_RIGHT_FORWARD_PIN, False)
-	GPIO.output(_RIGHT_BACKWARD_PIN, False)
-
-
-def _right_forward():
-	GPIO.output(_RIGHT_BACKWARD_PIN, False)
-	GPIO.output(_RIGHT_FORWARD_PIN, True)
-
-
-def _right_backward():
-	GPIO.output(_RIGHT_FORWARD_PIN, False)
-	GPIO.output(_RIGHT_BACKWARD_PIN, True)
-
-
-def _left_stop():
-	GPIO.output(_LEFT_FORWARD_PIN, False)
-	GPIO.output(_LEFT_BACKWARD_PIN, False)
-
-
-def _left_forward():
-	GPIO.output(_LEFT_BACKWARD_PIN, False)
-	GPIO.output(_LEFT_FORWARD_PIN, True)
-
-
-def _left_backward():
-	GPIO.output(_LEFT_FORWARD_PIN, False)
-	GPIO.output(_LEFT_BACKWARD_PIN, True)
-
-
-def forward():
+def forward(speed: Speed):
 	print("forward")
-	_right_forward()
-	_left_forward()
+	_RIGHT.forward(speed)
+	_LEFT.forward(speed)
 
 
-def backward():
+def backward(speed: Speed):
 	print("backward")
-	_right_backward()
-	_left_backward()
+	_RIGHT.backward(speed)
+	_LEFT.backward(speed)
 
 
 def stop():
 	print("stop")
-	_right_stop()
-	_left_stop()
+	_RIGHT.stop()
+	_LEFT.stop()
 	time.sleep(_INERTIA_TIMEOUT)
 
 
 def turn_right():
 	print("turn_right")
-	_right_stop()
-	_left_forward()
 
 
 def sharp_turn_right():
 	print("sharp_turn_right")
-	_right_backward()
-	_left_forward()
 
 
 def turn_left():
 	print("turn_right")
-	_left_stop()
-	_right_forward()
 
 
 def sharp_turn_left():
 	print("sharp_turn_right")
-	_left_backward()
-	_right_forward()
+
