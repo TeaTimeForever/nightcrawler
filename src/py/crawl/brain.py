@@ -1,6 +1,6 @@
 import time
 
-from crawl.__types import Distance, Speed
+from crawl.__types import Distance, Gear
 import crawl.drive as drive
 import crawl.sonar as sonar
 from crawl.rule import Rule
@@ -8,7 +8,6 @@ from crawl.rule import Rule
 _MIN_FRONT_DISTANCE: Distance = 20
 _SIDE_DISTANCE: Distance = _MIN_FRONT_DISTANCE + 10
 _DISTANCE_TOLERANCE: Distance = 1
-ROTATING_SONAR = sonar.RotatingSonar(31, 32, 33)
 
 
 _FRONT_RULE =\
@@ -27,39 +26,39 @@ _LEFT_NOT_TOO_CLOSE_RULE = \
 
 def stop_at_wall_in_front():
 	drive.forward()
-	ROTATING_SONAR.wait_until([_FRONT_RULE])
+	sonar.sonar.ROTATING_SONAR.wait_until([_FRONT_RULE])
 	drive.stop()
 	drive.backward()
-	ROTATING_SONAR.wait_until([_BACK_RULE])
+	sonar.ROTATING_SONAR.wait_until([_BACK_RULE])
 	drive.stop()
 
 
 def turn_sharp_right_until_wall_is_on_left():
 	drive.sharp_turn_right()
-	ROTATING_SONAR.wait_until([_LEFT_NOT_TOO_FAR_RULE])
+	sonar.ROTATING_SONAR.wait_until([_LEFT_NOT_TOO_FAR_RULE])
 	drive.stop()
 
 
 def follow_the_wall() -> str:
 	print("follow_the_wall")
 	drive.forward()
-	rule_id = ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_CLOSE_RULE, _LEFT_TOO_FAR_RULE])
+	rule_id = sonar.ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_TOO_CLOSE_RULE, _LEFT_TOO_FAR_RULE])
 	drive.stop()
 	drive.backward()
-	ROTATING_SONAR.wait_until([_BACK_RULE])
+	sonar.ROTATING_SONAR.wait_until([_BACK_RULE])
 	drive.stop()
 	return rule_id
 
 
 def turn_right_until_wall_is_on_left():
 	drive.turn_right()
-	ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_NOT_TOO_CLOSE_RULE])
+	sonar.ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_NOT_TOO_CLOSE_RULE])
 	drive.stop()
 
 
 def turn_left_until_wall_is_on_left():
 	drive.turn_left()
-	ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_NOT_TOO_FAR_RULE])
+	sonar.ROTATING_SONAR.wait_until([_FRONT_RULE, _LEFT_NOT_TOO_FAR_RULE])
 	drive.stop()
 
 
@@ -71,7 +70,20 @@ _RULE_TO_ACTION_MAP = {
 
 
 def forward_backward():
-	_speed: Speed = 0
+	_speed: Gear = 0
+	while True:
+		while _speed < 100:
+			drive.straight(_speed)
+			_speed += 1
+			time.sleep(0.1)
+		while _speed > -100:
+			drive.straight(_speed)
+			_speed -= 1
+			time.sleep(0.1)
+
+
+def speed_by_distance():
+	_speed: Gear = 0
 	while True:
 		while _speed < 100:
 			drive.straight(_speed)

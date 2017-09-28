@@ -1,4 +1,5 @@
 Angle = int
 Distance = float
+Speed = float
 Pin = int
-Speed = int
+Gear = int

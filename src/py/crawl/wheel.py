@@ -1,6 +1,6 @@
 from enum import Enum
 import RPi.GPIO as GPIO
-from crawl.__types import Pin, Speed
+from crawl.__types import Pin, Gear
 
 
 class Wheel:
@@ -10,33 +10,33 @@ class Wheel:
 		GPIO.setup(backward_pin, GPIO.OUT)
 		self._forward = GPIO.PWM(forward_pin, 50)
 		self._backward = GPIO.PWM(backward_pin, 50)
-		self._speed: Speed = 0
+		self._gear: Gear = 0
 		self._forward.start(0)
 		self._backward.start(0)
 
 	def stop(self):
 		self._forward.ChangeDutyCycle(0)
 		self._backward.ChangeDutyCycle(0)
-		self._speed = 0
+		self._gear = 0
 
-	def go(self, speed: Speed):
-		if self._speed == speed:
+	def go(self, gear: Gear):
+		if self._gear == gear:
 			return
 
-		if speed == 0:
+		if gear == 0:
 			self.stop()
 			return
 
-		if speed > 0:
-			if self._speed < 0:
+		if gear > 0:
+			if self._gear < 0:
 				self._backward.ChangeDutyCycle(0)
-			self._forward.ChangeDutyCycle(speed)
+			self._forward.ChangeDutyCycle(gear)
 		else:
-			if self._speed > 0:
+			if self._gear > 0:
 				self._forward.ChangeDutyCycle(0)
-			self._backward.ChangeDutyCycle(-speed)
+			self._backward.ChangeDutyCycle(-gear)
 
-		self._speed = speed
+		self._gear = gear
 
 	def close(self):
 		self._forward.stop()

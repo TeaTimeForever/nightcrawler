@@ -3,14 +3,13 @@ from typing import Callable, List
 import RPi.GPIO as GPIO
 import time
 
-from crawl.__types import Pin, Distance, Angle
+from crawl.__types import Pin, Distance, Angle, Speed
 from crawl.rule import Rule
 
 RIGHT: Angle = 0
 FRONT: Angle = 90
 LEFT: Angle = 180
 
-_FREQUENCY = 0.1
 _SAMPLE_SIZE = 3
 
 _SONAR_FREQUENCY = 0.1
@@ -27,7 +26,17 @@ class Sonar:
 
 	def wait_until(self, predicate: Callable[[Distance], bool]):
 		while predicate(self.distance()):
-			time.sleep(_FREQUENCY)
+			time.sleep(_SONAR_FREQUENCY)
+
+	def speed(self) -> Speed:
+		start_distance = self._raw_distance()
+		tmp_speed: Speed = 0.0
+		for _ in range(_SAMPLE_SIZE):
+			time.sleep(_SONAR_FREQUENCY)
+			end_distance = self._raw_distance()
+			tmp_speed += (end_distance - start_distance) / _SONAR_FREQUENCY
+			start_distance = end_distance
+		return tmp_speed / _SAMPLE_SIZE
 
 	def distance(self) -> Distance:
 		return sum([self._raw_distance() for _ in range(_SAMPLE_SIZE)]) / _SAMPLE_SIZE
@@ -41,8 +50,7 @@ class Sonar:
 		start = time.time()
 		while GPIO.input(self._echo_pin):
 			pass
-		delta = time.time() - start
-		return delta * 17150
+		return (time.time() - start) * 17150
 
 
 class RotatingSonar(Sonar):
@@ -70,8 +78,11 @@ class RotatingSonar(Sonar):
 	def turn(self, angle: int):
 		if self._angle == angle:
 			return
-		dut_cycle = 2.5 + angle / 18.0
+		dut_cycle = 0
 		self._servo.start(dut_cycle)
 		time.sleep(_SERVO_TIMEOUT)
 		self._servo.stop()
 		self._angle = angle
+
+
+ROTATING_SONAR = RotatingSonar(31, 32, 33)
