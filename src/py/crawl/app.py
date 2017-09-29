@@ -12,7 +12,7 @@ from crawl import drive
 # 	GPIO.cleanup()
 
 try:
-	drive.slow_down_before_wall()()
+	drive.slow_down_before_wall()
 except KeyboardInterrupt:
 	drive.close()
 	GPIO.cleanup()

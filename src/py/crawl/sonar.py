@@ -28,15 +28,15 @@ class Sonar:
 		while predicate(self.distance()):
 			time.sleep(_SONAR_FREQUENCY)
 
-	def speed(self) -> Speed:
-		start_distance = self._raw_distance()
-		tmp_speed: Speed = 0.0
-		for _ in range(_SAMPLE_SIZE):
-			time.sleep(_SONAR_FREQUENCY)
-			end_distance = self._raw_distance()
-			tmp_speed += (end_distance - start_distance) / _SONAR_FREQUENCY
-			start_distance = end_distance
-		return tmp_speed / _SAMPLE_SIZE
+	# def speed(self) -> Speed:
+		# start_distance = self._raw_distance()
+		# tmp_speed: Speed = 0.0
+		# for _ in range(_SAMPLE_SIZE):
+		# 	time.sleep(_SONAR_FREQUENCY)
+		# 	end_distance = self._raw_distance()
+		# 	tmp_speed += (end_distance - start_distance) / _SONAR_FREQUENCY
+		# 	start_distance = end_distance
+		# return tmp_speed / _SAMPLE_SIZE
 
 	def distance(self) -> Distance:
 		return sum([self._raw_distance() for _ in range(_SAMPLE_SIZE)]) / _SAMPLE_SIZE

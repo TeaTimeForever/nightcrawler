@@ -21,9 +21,11 @@ _DISTANCE_TOLERANCE: Distance = 5
 
 def slow_down_before_wall():
 	while abs(ROTATING_SONAR.distance() - _MIN_FRONT_DISTANCE) > _DISTANCE_TOLERANCE:
-		speed = ROTATING_SONAR.speed()
-		distance = ROTATING_SONAR.distance()
-		delta_from_optimal_trajectory = distance - _MIN_FRONT_DISTANCE - speed
+		distance1 = ROTATING_SONAR.distance()
+		time.sleep(_INERTIA_TIMEOUT)
+		distance2 = ROTATING_SONAR.distance()
+		speed = (distance2 - distance1) / _INERTIA_TIMEOUT
+		delta_from_optimal_trajectory = distance2 - _MIN_FRONT_DISTANCE - speed / 2
 		_RIGHT.accelerate(delta_from_optimal_trajectory)
 		_LEFT.accelerate(delta_from_optimal_trajectory)
 	stop()
