@@ -14,6 +14,6 @@ from crawl import drive
 
 try:
 	drive.slow_down_before_wall()
-except KeyboardInterrupt:
+except Exception:
 	drive.close()
 	GPIO.cleanup()
