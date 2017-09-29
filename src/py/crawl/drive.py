@@ -2,7 +2,7 @@ import time
 
 from crawl.sonar import ROTATING_SONAR
 from crawl.wheel import Wheel
-from crawl.__types import Pin, Gear, Distance, Speed
+from crawl.__types import Pin, Gear, Distance
 
 _RIGHT_FORWARD_PIN: Pin = 36
 _RIGHT_BACKWARD_PIN: Pin = 35
@@ -17,7 +17,7 @@ _DC_FREQUENCY: int = 10
 
 _MIN_FRONT_DISTANCE: Distance = 20
 _DISTANCE_TOLERANCE: Distance = 5
-_ACCELERATION_FACTOR = 10
+_ACCELERATION_FACTOR = 5
 
 
 def slow_down_before_wall():
@@ -26,9 +26,10 @@ def slow_down_before_wall():
 		time.sleep(_INERTIA_TIMEOUT)
 		distance2 = ROTATING_SONAR.distance()
 		speed = (distance2 - distance1) / _INERTIA_TIMEOUT
-		delta_from_optimal_trajectory = distance2 - _MIN_FRONT_DISTANCE - speed * _ACCELERATION_FACTOR
-		_RIGHT.accelerate(delta_from_optimal_trajectory)
-		_LEFT.accelerate(delta_from_optimal_trajectory)
+		delta_from_trajectory = distance2 - _MIN_FRONT_DISTANCE - speed * _ACCELERATION_FACTOR
+		print("delta_from_trajectory=" + str(delta_from_trajectory))
+		_RIGHT.accelerate(delta_from_trajectory)
+		_LEFT.accelerate(delta_from_trajectory)
 	stop()
 
 
