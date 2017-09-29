@@ -1,7 +1,8 @@
-from enum import Enum
 import RPi.GPIO as GPIO
+import time
 from crawl.__types import Pin, Gear
 
+_PIN_DELAY = 0.01
 
 class Wheel:
 
@@ -17,6 +18,7 @@ class Wheel:
 	def stop(self):
 		self._forward.ChangeDutyCycle(0)
 		self._backward.ChangeDutyCycle(0)
+		time.sleep(_PIN_DELAY)
 		self._gear = 0
 
 	def accelerate(self, gear: Gear) -> bool:
@@ -35,10 +37,12 @@ class Wheel:
 		if gear >= 0:
 			if self._gear < 0:
 				self._backward.ChangeDutyCycle(0)
+				time.sleep(_PIN_DELAY)
 			self._forward.ChangeDutyCycle(gear)
 		else:
 			if self._gear > 0:
 				self._forward.ChangeDutyCycle(0)
+				time.sleep(_PIN_DELAY)
 			self._backward.ChangeDutyCycle(-gear)
 
 		self._gear = gear
