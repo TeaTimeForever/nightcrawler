@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 
-
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
@@ -13,7 +12,7 @@ from crawl import drive
 # 	GPIO.cleanup()
 
 try:
-	forward_backward()
+	drive.slow_down_before_wall()()
 except KeyboardInterrupt:
 	drive.close()
 	GPIO.cleanup()

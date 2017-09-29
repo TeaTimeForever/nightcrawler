@@ -15,15 +15,19 @@ _LEFT = Wheel(37, 38)
 _INERTIA_TIMEOUT: int = 0.3
 _DC_FREQUENCY: int = 10
 
-_MIN_SPEED: Speed = 1
 _MIN_FRONT_DISTANCE: Distance = 20
+_DISTANCE_TOLERANCE: Distance = 5
 
 
 def slow_down_before_wall():
-	while ROTATING_SONAR.distance() > _MIN_FRONT_DISTANCE:
+	while abs(ROTATING_SONAR.distance() - _MIN_FRONT_DISTANCE) > _DISTANCE_TOLERANCE:
 		speed = ROTATING_SONAR.speed()
 		distance = ROTATING_SONAR.distance()
-		straight(_MIN_FRONT_DISTANCE)
+		delta_from_optimal_trajectory = distance - _MIN_FRONT_DISTANCE - speed
+		_RIGHT.accelerate(delta_from_optimal_trajectory)
+		_LEFT.accelerate(delta_from_optimal_trajectory)
+	stop()
+
 
 def straight(gear: Gear):
 	_RIGHT.go(gear)

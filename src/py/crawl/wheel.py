@@ -19,15 +19,19 @@ class Wheel:
 		self._backward.ChangeDutyCycle(0)
 		self._gear = 0
 
+	def accelerate(self, gear: Gear) -> bool:
+		self.go(self._gear + gear)
+		return abs(self._gear) == 100
+
 	def go(self, gear: Gear):
+		if gear > 100:
+			gear = 100
+		if gear < -100:
+			gear = -100
 		if self._gear == gear:
 			return
 
-		if gear == 0:
-			self.stop()
-			return
-
-		if gear > 0:
+		if gear >= 0:
 			if self._gear < 0:
 				self._backward.ChangeDutyCycle(0)
 			self._forward.ChangeDutyCycle(gear)
