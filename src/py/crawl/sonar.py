@@ -75,10 +75,10 @@ class RotatingSonar(Sonar):
 	def home(self):
 		self.turn(FRONT)
 
-	def turn(self, angle: int):
+	def turn(self, angle: Angle):
 		if self._angle == angle:
 			return
-		dut_cycle = 0
+		dut_cycle = 2.25 + angle / 18
 		self._servo.start(dut_cycle)
 		time.sleep(_SERVO_TIMEOUT)
 		self._servo.stop()
