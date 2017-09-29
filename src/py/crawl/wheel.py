@@ -21,12 +21,13 @@ class Wheel:
 
 	def accelerate(self, gear: Gear) -> bool:
 		self.go(self._gear + gear)
+		print("new gear = " + str(self._gear))
 		return abs(self._gear) == 100
 
 	def go(self, gear: Gear):
 		if gear > 100:
 			gear = 100
-		if gear < -100:
+		elif gear < -100:
 			gear = -100
 		if self._gear == gear:
 			return
