@@ -4,7 +4,7 @@ from crawl.__types import Pin, Gear
 
 _PIN_DELAY = 0.01
 _MAX_GEAR = 100
-_PWM_FREQUENCY = 10
+_PWM_FREQUENCY = 50
 
 class Wheel:
 
