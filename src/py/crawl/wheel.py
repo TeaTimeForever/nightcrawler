@@ -3,16 +3,16 @@ import time
 from crawl.__types import Pin, Gear
 
 _PIN_DELAY = 0.01
-_MAX_GEAR = 75
-
+_MAX_GEAR = 100
+_PWM_FREQUENCY = 10
 
 class Wheel:
 
 	def __init__(self, forward_pin: Pin, backward_pin: Pin):
 		GPIO.setup(forward_pin, GPIO.OUT)
 		GPIO.setup(backward_pin, GPIO.OUT)
-		self._forward = GPIO.PWM(forward_pin, 50)
-		self._backward = GPIO.PWM(backward_pin, 50)
+		self._forward = GPIO.PWM(forward_pin, _PWM_FREQUENCY)
+		self._backward = GPIO.PWM(backward_pin, _PWM_FREQUENCY)
 		self._gear: Gear = 0
 		self._forward.start(0)
 		self._backward.start(0)
