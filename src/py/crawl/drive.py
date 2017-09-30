@@ -1,40 +1,42 @@
-import time
-
 from crawl.sonar import ROTATING_SONAR
+from crawl.utils import max_min
 from crawl.wheel import Wheel
-from crawl.__types import Pin, Gear, Distance
-
-_RIGHT_FORWARD_PIN: Pin = 36
-_RIGHT_BACKWARD_PIN: Pin = 35
-_LEFT_FORWARD_PIN: Pin = 37
-_LEFT_BACKWARD_PIN: Pin = 38
+from crawl.__types import Percent, Cm, CmPerSec
 
 _RIGHT = Wheel(36, 35)
 _LEFT = Wheel(37, 38)
 
-_INERTIA_TIMEOUT: int = 0.1
+_MIN_FRONT_DISTANCE: Cm = 20
+_DISTANCE_TOLERANCE: Cm = 5
+_MAX_ACCELERATION: Percent = 10
+_SPEED_COEFFICIENT = 2
+_MAX_SPEED: CmPerSec = 100
 
-_MIN_FRONT_DISTANCE: Distance = 20
-_DISTANCE_TOLERANCE: Distance = 5
-_ACCELERATION_FACTOR = 5
+
+def _optimal_speed(distance: Cm) -> CmPerSec:
+	return max_min((distance - _MIN_FRONT_DISTANCE) / _SPEED_COEFFICIENT, -_MAX_SPEED, _MAX_SPEED)
+
+
+def _acceleration(current_speed: CmPerSec, optimal_speed: CmPerSec) -> Percent:
+	return max_min(optimal_speed - current_speed, -_MAX_ACCELERATION, _MAX_ACCELERATION)
 
 
 def slow_down_before_wall():
-	while abs(ROTATING_SONAR.distance() - _MIN_FRONT_DISTANCE) > _DISTANCE_TOLERANCE:
-		distance1 = ROTATING_SONAR.distance()
-		time.sleep(_INERTIA_TIMEOUT)
-		distance2 = ROTATING_SONAR.distance()
-		speed = (distance2 - distance1) / _INERTIA_TIMEOUT
-		delta_from_trajectory = distance2 - _MIN_FRONT_DISTANCE - speed * _ACCELERATION_FACTOR
-		print(str(distance1)+";"+str(distance2)+";"+str(speed))
-		_RIGHT.accelerate(delta_from_trajectory)
-		_LEFT.accelerate(delta_from_trajectory)
+	distance = ROTATING_SONAR.distance()
+	while abs(distance - _MIN_FRONT_DISTANCE) > _DISTANCE_TOLERANCE:
+		distance = ROTATING_SONAR.distance()
+		optimal_speed = _optimal_speed(distance)
+		current_speed = ROTATING_SONAR.speed()
+		acceleration = _acceleration(current_speed, optimal_speed)
+		print(distance, current_speed, optimal_speed, acceleration)
+		_RIGHT.accelerate(acceleration)
+		_LEFT.accelerate(acceleration)
 	stop()
 
 
-def straight(gear: Gear):
-	_RIGHT.go(gear)
-	_LEFT.go(gear)
+def straight(gear: Percent):
+	_RIGHT.speed(gear)
+	_LEFT.speed(gear)
 
 
 def stop():

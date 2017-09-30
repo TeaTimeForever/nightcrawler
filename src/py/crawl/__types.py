@@ -1,5 +1,5 @@
 Angle = int
-Distance = float
-Speed = float
+Cm = float
+CmPerSec = float
 Pin = int
-Gear = int
+Percent = float

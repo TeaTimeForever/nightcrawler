@@ -1,13 +1,13 @@
 import time
 
-from crawl.__types import Distance, Gear
+from crawl.__types import Cm, Percent
 import crawl.drive as drive
 import crawl.sonar as sonar
 from crawl.rule import Rule
 
-_MIN_FRONT_DISTANCE: Distance = 20
-_SIDE_DISTANCE: Distance = _MIN_FRONT_DISTANCE + 10
-_DISTANCE_TOLERANCE: Distance = 1
+_MIN_FRONT_DISTANCE: Cm = 20
+_SIDE_DISTANCE: Cm = _MIN_FRONT_DISTANCE + 10
+_DISTANCE_TOLERANCE: Cm = 1
 
 
 _FRONT_RULE =\
@@ -70,7 +70,7 @@ _RULE_TO_ACTION_MAP = {
 
 
 def forward_backward():
-	_speed: Gear = 0
+	_speed: Percent = 0
 	while True:
 		while _speed < 100:
 			drive.straight(_speed)
@@ -83,7 +83,7 @@ def forward_backward():
 
 
 def speed_by_distance():
-	_speed: Gear = 0
+	_speed: Percent = 0
 	while True:
 		while _speed < 100:
 			drive.straight(_speed)

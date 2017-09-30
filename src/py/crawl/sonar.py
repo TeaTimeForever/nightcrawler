@@ -3,14 +3,12 @@ from typing import Callable, List
 import RPi.GPIO as GPIO
 import time
 
-from crawl.__types import Pin, Distance, Angle, Speed
+from crawl.__types import Pin, Cm, Angle, CmPerSec
 from crawl.rule import Rule
 
 RIGHT: Angle = 0
 FRONT: Angle = 90
 LEFT: Angle = 180
-
-_SAMPLE_SIZE = 3
 
 _SONAR_FREQUENCY = 0.1
 _SERVO_TIMEOUT = 0.3
@@ -24,24 +22,17 @@ class Sonar:
 		GPIO.setup(self._trigger_pin, GPIO.OUT)
 		GPIO.setup(self._echo_pin, GPIO.IN)
 
-	def wait_until(self, predicate: Callable[[Distance], bool]):
+	def wait_until(self, predicate: Callable[[Cm], bool]):
 		while predicate(self.distance()):
 			time.sleep(_SONAR_FREQUENCY)
 
-	# def speed(self) -> Speed:
-		# start_distance = self._raw_distance()
-		# tmp_speed: Speed = 0.0
-		# for _ in range(_SAMPLE_SIZE):
-		# 	time.sleep(_SONAR_FREQUENCY)
-		# 	end_distance = self._raw_distance()
-		# 	tmp_speed += (end_distance - start_distance) / _SONAR_FREQUENCY
-		# 	start_distance = end_distance
-		# return tmp_speed / _SAMPLE_SIZE
+	def speed(self) -> CmPerSec:
+		start = time.time()
+		distances: List[Cm] = [self.distance() for _ in range(50)]
+		duration = time.time() - start
+		return 50 * sum([distance * (1225 - 50 * i) for i, distance in enumerate(distances)]) / 520625 / duration
 
-	def distance(self) -> Distance:
-		return sum([self._raw_distance() for _ in range(_SAMPLE_SIZE)]) / _SAMPLE_SIZE
-
-	def _raw_distance(self) -> Distance:
+	def distance(self) -> Cm:
 		GPIO.output(self._trigger_pin, True)
 		time.sleep(1 / 200000)
 		GPIO.output(self._trigger_pin, False)

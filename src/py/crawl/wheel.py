@@ -1,10 +1,8 @@
 import RPi.GPIO as GPIO
-import time
-from crawl.__types import Pin, Gear
+from crawl.__types import Pin, Percent
 
-_PIN_DELAY = 0.01
-_MAX_GEAR = 100
 _PWM_FREQUENCY = 50
+
 
 class Wheel:
 
@@ -13,41 +11,39 @@ class Wheel:
 		GPIO.setup(backward_pin, GPIO.OUT)
 		self._forward = GPIO.PWM(forward_pin, _PWM_FREQUENCY)
 		self._backward = GPIO.PWM(backward_pin, _PWM_FREQUENCY)
-		self._gear: Gear = 0
+		self._percent: Percent = 0
 		self._forward.start(0)
 		self._backward.start(0)
 
 	def stop(self):
 		self._forward.ChangeDutyCycle(0)
 		self._backward.ChangeDutyCycle(0)
-		time.sleep(_PIN_DELAY)
-		self._gear = 0
+		self._percent = 0
 
-	def accelerate(self, gear: Gear) -> bool:
-		self.go(self._gear + gear)
-		return abs(self._gear) == _MAX_GEAR
+	def accelerate(self, percent: Percent):
+		self.go(self._percent + percent)
 
-	def go(self, gear: Gear):
-		if gear > _MAX_GEAR:
-			gear = _MAX_GEAR
-		elif gear < -_MAX_GEAR:
-			gear = -_MAX_GEAR
-		if self._gear == gear:
+	def go(self, percent: Percent):
+		print("wheel go " + str(percent))
+		percent = _validate(percent)
+		if self._percent == percent:
 			return
 
-		if gear >= 0:
-			if self._gear < 0:
+		if percent >= 0:
+			if self._percent < 0:
 				self._backward.ChangeDutyCycle(0)
-				time.sleep(_PIN_DELAY)
-			self._forward.ChangeDutyCycle(gear)
+			self._forward.ChangeDutyCycle(percent)
 		else:
-			if self._gear > 0:
+			if self._percent > 0:
 				self._forward.ChangeDutyCycle(0)
-				time.sleep(_PIN_DELAY)
-			self._backward.ChangeDutyCycle(-gear)
+			self._backward.ChangeDutyCycle(-percent)
 
-		self._gear = gear
+		self._percent = percent
 
 	def close(self):
 		self._forward.stop()
 		self._backward.stop(0)
+
+
+def _validate(percent: Percent) -> Percent:
+	return 100.0 if percent > 100 else -100.0 if percent < -100 else percent
