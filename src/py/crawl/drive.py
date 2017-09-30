@@ -13,7 +13,6 @@ _RIGHT = Wheel(36, 35)
 _LEFT = Wheel(37, 38)
 
 _INERTIA_TIMEOUT: int = 0.1
-_DC_FREQUENCY: int = 10
 
 _MIN_FRONT_DISTANCE: Distance = 20
 _DISTANCE_TOLERANCE: Distance = 5
@@ -27,7 +26,7 @@ def slow_down_before_wall():
 		distance2 = ROTATING_SONAR.distance()
 		speed = (distance2 - distance1) / _INERTIA_TIMEOUT
 		delta_from_trajectory = distance2 - _MIN_FRONT_DISTANCE - speed * _ACCELERATION_FACTOR
-		print("delta_from_trajectory=" + str(delta_from_trajectory))
+		print(str(distance1)+";"+str(distance2)+";"+str(speed))
 		_RIGHT.accelerate(delta_from_trajectory)
 		_LEFT.accelerate(delta_from_trajectory)
 	stop()
@@ -41,7 +40,6 @@ def straight(gear: Gear):
 def stop():
 	_RIGHT.stop()
 	_LEFT.stop()
-	time.sleep(_INERTIA_TIMEOUT)
 
 
 def close():

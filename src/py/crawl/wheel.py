@@ -3,6 +3,8 @@ import time
 from crawl.__types import Pin, Gear
 
 _PIN_DELAY = 0.01
+_MAX_GEAR = 75
+
 
 class Wheel:
 
@@ -23,14 +25,13 @@ class Wheel:
 
 	def accelerate(self, gear: Gear) -> bool:
 		self.go(self._gear + gear)
-		print("new gear = " + str(self._gear))
-		return abs(self._gear) == 100
+		return abs(self._gear) == _MAX_GEAR
 
 	def go(self, gear: Gear):
-		if gear > 100:
-			gear = 100
-		elif gear < -100:
-			gear = -100
+		if gear > _MAX_GEAR:
+			gear = _MAX_GEAR
+		elif gear < -_MAX_GEAR:
+			gear = -_MAX_GEAR
 		if self._gear == gear:
 			return
 
